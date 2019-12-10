@@ -45,6 +45,8 @@ class ScreenGet:
 			self.datB)[14:16] + '_' + str(self.datE)[11:13] + str(self.datE)[14:16]
 		if len(sys.argv) == 4:
 			self.pathSave = sys.argv[3]
+		else:
+			self.pathSave = os.curdir
 		if os.path.exists(r'urls_success.txt') and os.path.exists(r'urls_fail.txt') == True:
 			os.remove('urls_success.txt')
 			os.remove('urls_fail.txt')
