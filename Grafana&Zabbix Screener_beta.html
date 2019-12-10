@@ -1,0 +1,675 @@
+<html>
+	<head>
+	<style>
+	#left {text-align: left;}
+	#center {text-align: center;}
+	#right {text-align: right;}
+	.head {
+		font-family:Arial, Helvetica, sans-serif;
+	}
+	body{
+		background-color: whitesmoke;
+	}
+	h1{
+	font-size: 19pt;
+	}
+	h2{
+		font-size: 17pt;
+	}
+	h3{
+		font-size: 13pt;
+	}
+	h4{
+		font-weight:lighter;
+		font-size: 12pt;
+	}
+	th{
+	border:0,5px solid transparent;
+
+	}
+	td{
+	border:0,5px solid transparent;
+
+	}
+	.grafana_title {
+	font-family:Arial, Helvetica, sans-serif;
+	position: absolute;
+	top:33%;
+	}
+	
+	.table1 {
+		font-family:Arial, Helvetica, sans-serif;
+		background-color:whitesmoke;
+		border-radius: 30%;
+	}
+	.table2 {
+	position: absolute;
+	top:45%;
+	}
+	
+	.caption{
+	font-size: 12px;
+	size:100%;
+	display:table-caption;
+	}
+	.table_zabbix {
+	position: absolute;
+	empty-cells:hide;
+	} 
+	
+	/*
+	.table_grafana {
+	position: absolute;
+	top:19%;
+	empty-cells:hide;
+	} 
+	*/
+	
+	/*.table {
+	position: absolute;
+	top:16%;
+	width: 99%;
+	} 
+	*/
+	.button{
+		background-color: white;
+		border-radius: 40%
+	}
+	.one{
+		position: absolute;
+		left: 2%;
+		top:4%;
+
+	}
+	.pods{
+		position: absolute;
+		left: 28%;
+		top:4.5%;
+
+	}
+	.edit1{
+		position: absolute;
+		left: 2%;
+		top:8%;
+	}
+	.two{
+		position: absolute;
+		left: 40%;
+		top:4%;
+		display:inline-block;
+	}
+	
+	.edit2{
+		position: absolute;
+		left: 28%;
+		top:8%;
+	}
+	
+	
+	</style>
+	<title>Grafana & Zabbix Screener</title>
+	<meta charset="utf-8">
+		<script type="text/javascript">
+		dat1="";	
+		dat2="";
+		date1="";
+		date2="";
+		date11="";
+		date_start="";
+		period="";
+		sec="00";
+		
+		var Request_count=2;
+		var Prepare_time=10;
+		var Execute_time=11;
+		
+		var K10TS2AUD_UNDOTBS=10814;
+		var K10TS2AUD_TEMP=10813;
+		var K10TS2DB_UNDOTBS=9514;
+		var K10TS2DB_TEMP=9513;
+		
+		
+		var CPU_util_app1=7463;
+		var CPU_util_app2=7461;
+		var CPU_util_app3=7462;
+		
+		var Memory_all_app1=7370;
+		var Memory_all_app2=7365;
+		var Memory_all_app3=7366;
+		
+		var Memory_all_db=7369;
+		
+		var GC_Statictics_app1=7437;
+		var GC_Statictics_app2=7728;
+		var GC_Statictics_app3=7433;
+		
+		var Heap_Allocation_app1=7439;
+		var Heap_Allocation_app2=7730;
+		var Heap_Allocation_app3=7435;
+		
+		var Heap_Usage_app1=7427;
+		var Heap_Usage_app2=7425;
+		var Heap_Usage_app3=7426;
+		
+		var JVM_Treads_app1=7447;
+		var JVM_Treads_app2=7445;
+		var JVM_Treads_app3=7446;
+ 
+		var Thread_pool_Runtime_app1=7500;
+		var Thread_pool_Runtime_app2=7498;
+		var Thread_pool_Runtime_app3=7499;
+		
+		var Flow_and_Fault_db=7573;
+		
+		var JVM_Code_cashe_statictics_app1=8275;
+		var JVM_Code_cashe_statictics_app2=8273;
+		var JVM_Code_cashe_statictics_app3=8274;
+		var HOLD_DB=7576;
+		
+		function main(sec)
+		{
+		
+		if (String(document.getElementById("date1").value)=="") 
+		{
+			alert("Введите дату и время начала теста");
+			exit();
+		}
+		else if (String(document.getElementById("date2").value)=="") 
+		{
+			alert("Введите дату и время окончания теста");
+			exit();
+		}
+		
+		window.dat1=String(document.getElementById("date1").value);
+		window.dat2=String(document.getElementById("date2").value);
+		
+		
+		/*
+		window.dat1='26.03.2019 12:57';
+		window.dat2='26.03.2019 16:00';
+		*/
+		
+		/*window.dat1='10.06.2019 15:48';
+		window.dat2='10.06.2019 16:59';
+		*/
+		/*
+		window.dat1='31.05.2019 13:32';
+		window.dat2='31.05.2019 15:53';
+		*/
+		
+		window.sec=String(sec);
+		window.date1=new Date(Number(window.dat1.substring(6,10)), Number(window.dat1.substring(3,5)),Number(window.dat1.substring(0,2)),
+		Number(window.dat1.substring(11,13)), Number(window.dat1.substring(14,16)),0,000);
+		window.date1_sec=String(Number(window.date1-2671200000));
+		//window.date1_sec=window.date1_sec.substr(0,9)+"0000"
+
+		window.date_start=date_start+window.dat1.substring(6,10)+ window.dat1.substring(3,5)+(window.dat1.substring(0,2)+
+		window.dat1.substring(11,13)+ window.dat1.substring(14,16))+window.sec;
+		window.date_start=window.date_start.substring(0,23);
+		window.date11=String(Number(window.date1)).slice(0,-3)
+		window.date2=new Date(Number(window.dat2.substring(6,10)), Number(window.dat2.substring(3,5)),Number(window.dat2.substring(0,2)),
+		Number(window.dat2.substring(11,13)), Number(window.dat2.substring(14,16)),0,000);
+		window.date2_sec=String(Number((window.date2-2671200000)));
+		window.date2_sec=window.date2_sec.substr(0,9)+"0000"
+		window.date2=String(Number(window.date2)).slice(0,-3);
+		window.period=String(window.date2-window.date11);		
+
+		window.date1_grafana=window.date1+86407820;
+		window.date2_grafana=window.date2+86407820;
+		}
+	
+		/*
+		window.onload=window.main();
+		*/
+		function FRequest_count()
+		{
+		window.main();
+      	var url1="http://k10-fico-gm.vtb24.ru:3000/render/d-solo/000000021/ts-stats?orgId=1&from="+window.date1_sec+"&to="+window.date2_sec+"&panelId="+window.Request_count+"&var-aggregation=5m&theme=light&width=1000&height=500&tz=Europe%2FMoscow";
+		
+		window.downloadFile(url1);
+		
+		}
+		function FPrepare_Time()
+		{
+		window.main();
+      	var url1="http://k10-fico-gm.vtb24.ru:3000/render/d-solo/000000021/ts-stats?orgId=1&from="+window.date1_sec+"&to="+window.date2_sec+"&panelId="+window.Prepare_time+"&var-aggregation=5m&theme=light&width=1000&height=500&tz=Europe%2FMoscow";
+	
+		window.downloadFile(url1);
+		}
+		
+		function FExecute_Time()
+		{
+		window.main();
+      	var url1="http://k10-fico-gm.vtb24.ru:3000/render/d-solo/000000021/ts-stats?orgId=1&from="+window.date1_sec+"&to="+window.date2_sec+"&panelId="+window.Execute_time+"&var-aggregation=5m&theme=light&width=1000&height=500&tz=Europe%2FMoscow";
+		window.downloadFile(url1);
+		}
+
+		function FCPU_util_app1()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.CPU_util_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.CPU_util_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FCPU_util_app2()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.CPU_util_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.CPU_util_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FCPU_util_app3()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.CPU_util_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.CPU_util_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FMemory_all_app1()
+		{
+		window.main(16);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Memory_all_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Memory_all_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FMemory_all_app2()
+		{
+		window.main(11);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Memory_all_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Memory_all_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FMemory_all_app3()
+		{
+		window.main(35);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Memory_all_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Memory_all_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FMemory_all_db()
+		{
+		window.main(30);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Memory_all_db+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Memory_all_db+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FGC_Statictics_app1()
+		{
+		window.main(33);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.GC_Statictics_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.GC_Statictics_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FGC_Statictics_app2()
+		{
+		window.main(13);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.GC_Statictics_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.GC_Statictics_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FGC_Statictics_app3()
+		{
+		window.main(51);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.GC_Statictics_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.GC_Statictics_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Allocation_app1()
+		{
+		window.main(46);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Allocation_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Allocation_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Allocation_app2()
+		{
+		window.main(22);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Allocation_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Allocation_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Allocation_app3()
+		{
+		window.main(46);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Allocation_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Allocation_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Usage_app1()
+		{
+		window.main(12);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Usage_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Usage_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Usage_app2()
+		{
+		window.main(13);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Usage_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Usage_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHeap_Usage_app3()
+		{
+		window.main(54);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Heap_Usage_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Heap_Usage_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Treads_app1()
+		{
+		window.main(21);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Treads_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Treads_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Treads_app2()
+		{
+		window.main(44);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Treads_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Treads_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Treads_app3()
+		{
+		window.main(48);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Treads_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Treads_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FThread_pool_Runtime_app1()
+		{
+		window.main(53);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Thread_pool_Runtime_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Thread_pool_Runtime_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FThread_pool_Runtime_app2()
+		{
+		window.main(05);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Thread_pool_Runtime_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Thread_pool_Runtime_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FThread_pool_Runtime_app3()
+		{
+		window.main(42);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Thread_pool_Runtime_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Thread_pool_Runtime_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FFlow_and_Fault_db()
+		{
+		window.main(57);
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.Flow_and_Fault_db+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.Flow_and_Fault_db+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Code_cashe_statictics_app1()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Code_cashe_statictics_app1+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Code_cashe_statictics_app1+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Code_cashe_statictics_app2()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Code_cashe_statictics_app2+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Code_cashe_statictics_app2+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FJVM_Code_cashe_statictics_app3()
+		{
+		window.main();
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.JVM_Code_cashe_statictics_app3+"&period="+period+"&stime="+window.date_start+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.JVM_Code_cashe_statictics_app3+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FHOLD_DB()
+		{
+		window.main('13');
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.HOLD_DB+"&period="+period+"&stime="+window.date_start+window.sec+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.HOLD_DB+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		function FAUDDISKUTIL_UNDOTBS()
+		{
+		window.main('13');
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.K10TS2AUD_UNDOTBS+"&period="+period+"&stime="+window.date_start+window.sec+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.HOLD_DB+"&width=1782";
+		window.downloadFile(url1);
+		}
+		function FAUDDISKUTIL_TEMP()
+		{
+		window.main('13');
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.K10TS2AUD_TEMP+"&period="+period+"&stime="+window.date_start+window.sec+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.HOLD_DB+"&width=1782";
+		window.downloadFile(url1);
+		}
+		function FDISKUTIL_UNDOTBS()
+		{
+		window.main('13');
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.K10TS2DB_UNDOTBS+"&period="+period+"&stime="+window.date_start+window.sec+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.HOLD_DB+"&width=1782";
+		window.downloadFile(url1);
+		}
+		function FDISKUTIL_TEMP()
+		{
+		window.main('13');
+		var url1="http://k10-zabbix2-app/zabbix/chart2.php?graphid="+window.K10TS2DB_TEMP+"&period="+period+"&stime="+window.date_start+window.sec+"&isNow=0&profileIdx=web.graphs&profileIdx2="+window.HOLD_DB+"&width=1782";
+		window.downloadFile(url1);
+		}
+		
+		
+		window.downloadFile = function(sUrl) {
+		 
+			//If in Chrome or Safari - download via virtual link click
+			if (window.downloadFile.isChrome || window.downloadFile.isSafari) {
+				//Creating new link node.
+				var link = document.createElement('a');
+				link.href = sUrl;
+		 
+				if (link.download !== undefined){
+					//Set HTML5 download attribute. This will prevent file from opening if supported.
+					var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+					link.download = fileName;
+				}
+		 
+				//Dispatching click event.
+				if (document.createEvent) {
+					var e = document.createEvent('MouseEvents');
+					e.initEvent('click' ,true ,true);
+					link.dispatchEvent(e);
+					return true;
+				}
+			}
+		 
+			// Force file download (whether supported by server).
+			var query = '';
+		 
+			window.open(sUrl + query, '_self');
+		}
+		</script>
+
+	</head>
+	<body>
+		<form>
+		
+		<div class="head">
+			<h1><b><p>Grafana & Zabbix Screener</p></b></h1>
+			<div class="one"><h4><p>Дата и время начала теста, формат YYYY.MM.DD HH:mm</p></h4> </div>
+			<div class="pods"><p>like 26.03.2019 12:57</p></div>
+			<div class="edit1"><p><input id="date1"></p></div>
+			<div class="edit2"><p><input type="text" id="date2"></p></div>
+		</div>
+		<br><br><br>
+		<div class="table_grafana">
+		<table border="1" width="100%" cellpadding="3">
+		<caption>Grafana</caption>
+		<div class="tableal2">
+		<tr>
+		<th>
+		<h3><b><p>Request count</p></b></h3>
+		<p><input type="button" onclick="window.FRequest_count()" value="Start"></p>
+		</th>
+		<th>
+		<h3><b><p>Prepare Time</p></b></h3>
+		<p><input type="button" onclick="window.FPrepare_Time()" value="Start"></p>
+		</th>
+		<th>
+		<h3><b><p>Execute Time</p></b></h3>
+		<p><input type="button" onclick="window.FExecute_Time()" value="Start"></p>
+		</th>
+		</div>
+		</table>
+		</div>
+		<br>
+		<table border="1" width="100%" cellpadding="3">
+		
+		<div class="table_zabbix">
+		<caption>Zabbix</caption>
+			<tr>
+			<th>
+			<h3><b><p>Memory_all_DB</p></b></h3>
+			<p><input type="button" onclick="window.FMemory_all_db()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Flow_and_Fault_db</p></b></h3>
+			<p><input type="button" onclick="window.FFlow_and_Fault_db()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>HOLD_DB</p></b></h3>
+			<p><input type="button" onclick="window.FHOLD_DB()" value="Start"></p>
+			</th>
+			<tr>
+			<th>
+			<h3><b><p>CPU_Utilization_App1</p></b></h3>
+			<p><input type="button" onclick="window.FCPU_util_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>CPU_Utilization_App2</p></b></h3>
+			<p><input type="button" onclick="window.FCPU_util_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>CPU_Utilization_App3</p></b></h3>
+			<p><input type="button" onclick="window.FCPU_util_app3()" value="Start"></p>
+			</th></tr>
+			<tr>
+			<th>
+			<h3><b><p>Memory_all_App1</p></b></h3>
+			<p><input type="button" onclick="window.FMemory_all_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Memory_all_App2</p></b></h3>
+			<p><input type="button" onclick="window.FMemory_all_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Memory_all_App3</p></b></h3>
+			<p><input type="button" onclick="window.FMemory_all_app3()" value="Start"></p>
+			</th></tr>
+			<tr>
+			<th>
+			<h3><b><p>GC_Statictics_App1</p></b></h3>
+			<p><input type="button" onclick="window.FGC_Statictics_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>GC_Statictics_App2</p></b></h3>
+			<p><input type="button" onclick="window.FGC_Statictics_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>GC_Statictics_App3</p></b></h3>
+			<p><input type="button" onclick="window.FGC_Statictics_app3()" value="Start"></p>
+			</th>
+			</tr>		
+			<tr>
+			<th>
+			<h3><b><p>Heap_Allocation_App1</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Allocation_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Heap_Allocation_App2</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Allocation_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Heap_Allocation_App3</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Allocation_app3()" value="Start"></p>
+			</th>
+			</tr>
+			<tr>
+			<th>
+			<h3><b><p>Heap_Usage_App1</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Usage_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Heap_Usage_App2</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Usage_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Heap_Usage_App3</p></b></h3>
+			<p><input type="button" onclick="window.FHeap_Usage_app3()" value="Start"></p>
+			</th>
+			</tr>		
+			<tr>
+			<th>
+			<h3><b><p>Jvm_Treads_App1</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Treads_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Jvm_Treads_App2</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Treads_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Jvm_Treads_App3</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Treads_app3()" value="Start"></p>
+			</th>
+			</tr>
+			<tr>
+			<th>
+			<h3><b><p>Thread_pool_Runtime_App1</p></b></h3>
+			<p><input type="button" onclick="window.FThread_pool_Runtime_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Thread_pool_Runtime_App2</p></b></h3>
+			<p><input type="button" onclick="window.FThread_pool_Runtime_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>Thread_pool_Runtime_App3</p></b></h3>
+			<p><input type="button" onclick="window.FThread_pool_Runtime_app3()" value="Start"></p>
+			</th>
+			</tr>
+			<tr>
+			<th>
+			<h3><b><p>JVM_Code_cashe_statictics_App1</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Code_cashe_statictics_app1()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>JVM_Code_cashe_statictics_App2</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Code_cashe_statictics_app2()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>JVM_Code_cashe_statictics_App3</p></b></h3>
+			<p><input type="button" onclick="window.FJVM_Code_cashe_statictics_app3()" value="Start"></p>
+			</th>
+			</tr>
+			<tr>
+			<th>
+			<h3><b><p>K10TS2AUD Утилизация табличного пространства UNDOTBS</p></b></h3>
+			<p><input type="button" onclick="window.FAUDDISKUTIL_UNDOTBS()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>K10TS2AUD Утилизация табличного пространства TEMP</p></b></h3>
+			<p><input type="button" onclick="window.FAUDDISKUTIL_TEMP()" value="Start"></p>
+			</th>
+			<tr>
+			<th>
+			<h3><b><p>K10TS2DB Утилизация табличного пространства UNDOTBS</p></b></h3>
+			<p><input type="button" onclick="window.FDISKUTIL_UNDOTBS()" value="Start"></p>
+			</th>
+			<th>
+			<h3><b><p>K10TS2DB Утилизация табличного пространства TEMP</p></b></h3>
+			<p><input type="button" onclick="window.FDISKUTIL_TEMP()" value="Start"></p>
+			</th>
+			
+		</div>
+		</table>	
+		</form>
+	</body>
+</html>
