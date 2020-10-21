@@ -1,0 +1,14 @@
+{
+	"request": {
+        "method": "ANY",
+        "url": "/test1"
+    },
+    "response": {
+        "status": 200,
+		"body": "{\"responseName\": \"$(name)\"}",
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"transformers": ["body-transformer"]
+    }
+}
