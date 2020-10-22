@@ -9,6 +9,7 @@
 		"headers": {
 			"Content-Type": "text/xml"
 		},
-		"transformers": ["body-transformer"]
+		"transformers": ["body-transformer"],
+		"fixedDelayMilliseconds": 10000
     }
 }
